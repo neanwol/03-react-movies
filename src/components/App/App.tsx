@@ -15,7 +15,7 @@ function App() {
   const [error, setError] = useState('');
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
-  // Завантаження трендових фільмів при запуску
+
   useEffect(() => {
     const loadInitialMovies = async () => {
       setLoading(true);
@@ -39,7 +39,9 @@ function App() {
     loadInitialMovies();
   }, []);
 
-  const handleSearch = async (query: string) => {
+  const handleSearch = async (formData: FormData) => {
+    const query = formData.get('query') as string;
+    
     setMovies([]);
     setError('');
     setLoading(true);
@@ -62,14 +64,14 @@ function App() {
 
   return (
     <div className={css.container}>
-      <SearchBar onSubmit={handleSearch} />
+      <SearchBar action={handleSearch} />
       
       {error && <ErrorMessage message={error} />}
       
       {loading && <Loader />}
       
       {!loading && !error && movies.length > 0 && (
-        <MovieGrid movies={movies} onMovieClick={setSelectedMovie} />
+        <MovieGrid movies={movies} onSelect={setSelectedMovie} />
       )}
       
       {selectedMovie && (
