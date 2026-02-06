@@ -39,9 +39,7 @@ function App() {
     loadInitialMovies();
   }, []);
 
-  const handleSearch = async (formData: FormData) => {
-    const query = formData.get('query') as string;
-    
+  const handleSearch = async (query: string) => {
     setMovies([]);
     setError('');
     setLoading(true);
@@ -64,7 +62,7 @@ function App() {
 
   return (
     <div className={css.container}>
-      <SearchBar action={handleSearch} />
+      <SearchBar onSubmit={handleSearch} />
       
       {error && <ErrorMessage message={error} />}
       
